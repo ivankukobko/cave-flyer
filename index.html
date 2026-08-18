@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Cave Flyer</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <!-- Main Menu -->
+    <div id="ui-menu" class="overlay">
+      <div class="panel">
+        <h1>CAVE FLYER</h1>
+        <p>Randomly Generated Caves</p>
+        <p class="controls-hint">Controls: [A] & [D] keys or Tap Left/Right Screen</p>
+        <button id="btn-start">Start Mission</button>
+      </div>
+    </div>
+
+    <!-- Game Over -->
+    <div id="ui-gameover" class="overlay" style="display: none;">
+      <div class="panel">
+        <h1 class="red">HULL BREACH</h1>
+        <p>You crashed into the cavern walls.</p>
+        <button id="btn-restart">New Cave</button>
+        <button id="btn-retry-same" style="margin-left: 10px; background: #333;">Retry This Cave</button>
+      </div>
+    </div>
+
+    <!-- Victory -->
+    <div id="ui-victory" class="overlay" style="display: none;">
+      <div class="panel">
+        <h1 class="green">MISSION ACCOMPLISHED</h1>
+        <p>You reached the extraction point in <span id="final-time">0.00</span>s!</p>
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+          <button id="btn-retry-victory" style="background: #334455;">Retry</button>
+          <button id="btn-next" style="background: #22aa55;">Next</button>
+          <button id="btn-share" style="background: #444455;">Share Level</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pause -->
+    <div id="ui-pause" class="overlay" style="display: none;">
+      <div class="panel">
+        <h1>PAUSED</h1>
+        <p>Press [P] or [ESC] to resume</p>
+        <button id="btn-resume">Resume</button>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud" style="display: none;">
+      <div class="hud-item">TIME: <span id="ui-time">0.00</span></div>
+      <div class="hud-item">DIST: <span id="ui-dist">0</span></div>
+      <div class="hud-item" style="color: #888; font-size: 1rem;">SEED: <span id="ui-seed">0</span></div>
+    </div>
+
+    <!-- Top Center Biome Title Banner -->
+    <div id="ui-biome" style="display: none;">
+      <span id="biome-icon">🏔️</span> <span id="biome-name">CLASSIC CAVE</span>
+    </div>
+
+    <!-- Toggle Editor Button -->
+    <button id="btn-toggle-editor">Editor [E]</button>
+
+    <!-- Editor Mode Side Panel -->
+    <div id="ui-editor" style="display: none;">
+      <div class="editor-header">
+        <h2>Editor Mode</h2>
+        <span style="font-size: 0.8rem; color: #777;">[E] to close</span>
+      </div>
+
+      <!-- Presets -->
+      <div class="editor-group">
+        <label>Environment Preset</label>
+        <select id="select-preset">
+          <option value="classic">Classic Cave</option>
+          <option value="volcanic">Volcanic Trench</option>
+          <option value="ice">Ice Cavern</option>
+          <option value="toxic">Toxic Abyss</option>
+        </select>
+      </div>
+
+      <div class="editor-group">
+        <label>Camera Zoom <span id="val-zoom">15</span></label>
+        <input type="range" id="slider-zoom" min="5" max="35" value="15" step="1">
+      </div>
+
+      <div class="editor-group">
+        <label>Fog Density <span id="val-fog-density">0.03</span></label>
+        <input type="range" id="slider-fog-density" min="0.00" max="0.06" value="0.03" step="0.002">
+      </div>
+
+      <div class="editor-group">
+        <label>Fog Color</label>
+        <input type="color" id="picker-fog-color" value="#0a1a2a">
+      </div>
+
+      <div class="editor-group">
+        <label>Level Density <span id="val-fill-percent">45%</span></label>
+        <input type="range" id="slider-fill-percent" min="30" max="65" value="45" step="1">
+      </div>
+
+      <button id="btn-rebuild-level" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-top: 5px;">Regenerate Level</button>
+
+      <!-- Performance Profiler -->
+      <div class="editor-section-title">Performance Profiler</div>
+      <div id="profiler-grid">
+        <div class="prof-item">FPS: <span id="stat-fps">60</span></div>
+        <div class="prof-item">Frame: <span id="stat-ms">16.6ms</span></div>
+        <div class="prof-item">Draw Calls: <span id="stat-calls">0</span></div>
+        <div class="prof-item">Triangles: <span id="stat-tris">0</span></div>
+        <div class="prof-item">Rock Instances: <span id="stat-rocks">0</span></div>
+        <div class="prof-item">Particles: <span id="stat-particles">0</span></div>
+        <div class="prof-item">Scene Objects: <span id="stat-objects">0</span></div>
+        <div class="prof-item">VRAM Geoms: <span id="stat-geometries">0</span></div>
+      </div>
+
+      <!-- Config Export & Import -->
+      <div class="editor-section-title">Configuration</div>
+      <div style="display: flex; gap: 8px; margin-top: 5px;">
+        <button id="btn-export-config" style="flex: 1; padding: 8px; font-size: 0.8rem; background: #334455; color: #fff;">Export JSON</button>
+        <button id="btn-import-config" style="flex: 1; padding: 8px; font-size: 0.8rem; background: #334455; color: #fff;">Import JSON</button>
+        <input type="file" id="file-import-config" accept=".json" style="display: none;">
+      </div>
+    </div>
+
+    <div id="canvas-container"></div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
